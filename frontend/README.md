@@ -1,70 +1,199 @@
-# Getting Started with Create React App
+📦 CircleStore – Mini Marketplace
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A mini marketplace web application where users can sign up, log in, upload products for sale, browse all listed products, and view seller details.
+Built with React, Node.js, Express, MySQL, Tailwind CSS, and Cloudinary.
 
-## Available Scripts
+🚀 Live Demo
 
-In the project directory, you can run:
+🔗 Frontend: Add your deployed Vercel link here
+🔗 Backend API: Add your Render/Railway link here
 
-### `npm start`
+✨ Features
+👤 User Authentication
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Signup with Name, Email, Phone, Password
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Login with email & password
 
-### `npm test`
+JWT-based authentication
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Protected routes (Sell page)
 
-### `npm run build`
+🛒 Product Management
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Authenticated users can list products with:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Product Name
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Price
 
-### `npm run eject`
+Description
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Image upload (Cloudinary)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+View all products on Home page
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Click product → open modal with:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Product details
 
-## Learn More
+Seller name
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Seller phone number
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Owners can delete their products
 
-### Code Splitting
+💅 UI / UX
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Clean, responsive UI using Tailwind CSS
 
-### Analyzing the Bundle Size
+Product grid layout
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Modern modal design
 
-### Making a Progressive Web App
+Fully mobile-friendly
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+🛠 Tech Stack
+Frontend
 
-### Advanced Configuration
+React.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Tailwind CSS
 
-### Deployment
+React Router
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+JWT decode
 
-### `npm run build` fails to minify
+Backend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Node.js
+
+Express.js
+
+MySQL (mysql2)
+
+JWT Authentication
+
+Cloudinary (image hosting)
+
+Multer (file upload)
+
+🗄️ Database Schema (MySQL)
+Users Table
+Field	Type	Description
+id	INT PK	Auto increment
+name	VARCHAR(100)	User's name
+email	VARCHAR(150)	Unique
+phone	VARCHAR(20)	Seller phone
+password_hash	VARCHAR(255)	Hashed password
+created_at	TIMESTAMP	Default now
+Products Table
+Field	Type	Description
+id	INT PK	Auto increment
+user_id	INT	FK → users.id
+name	VARCHAR(255)	Product name
+price	DECIMAL	Product price
+description	TEXT	Product desc
+image_url	VARCHAR(512)	Cloudinary URL
+created_at	TIMESTAMP	Default now
+📂 Project Structure
+Circlestore_assign/
+│
+├── backend/
+│   ├── config/
+│   │   ├── db.js
+│   │   └── cloudinary.js
+│   ├── middleware/
+│   │   └── authMiddleware.js
+│   ├── routes/
+│   │   ├── auth.js
+│   │   └── product.js
+│   ├── server.js
+│   └── package.json
+│
+└── frontend/
+    ├── src/
+    │   ├── pages/
+    │   │   ├── Home.jsx
+    │   │   ├── Sell.jsx
+    │   │   ├── Login.jsx
+    │   │   └── Signup.jsx
+    │   ├── components/
+    │   │   ├── ProductCard.jsx
+    │   │   └── ProductModal.jsx
+    │   ├── utils/
+    │   │   └── auth.js
+    │   ├── api.js
+    │   ├── App.js
+    │   └── index.js
+    ├── package.json
+    └── tailwind.config.js
+
+⚙️ Setup Instructions
+🔧 Backend Setup
+
+Go inside backend folder:
+
+cd backend
+npm install
+
+
+Create a .env file:
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=mini_marketplace
+JWT_SECRET=yoursecretkey
+
+CLOUDINARY_CLOUD_NAME=xxxx
+CLOUDINARY_API_KEY=xxxx
+CLOUDINARY_API_SECRET=xxxx
+
+
+Run backend:
+
+npm run dev
+
+🎨 Frontend Setup
+
+Go inside frontend folder:
+
+cd frontend
+npm install
+
+
+Create .env:
+
+REACT_APP_API_BASE=http://localhost:5000/api
+
+
+Start:
+
+npm start
+
+🧪 API Endpoints
+Auth
+Method	Route	Description
+POST	/api/auth/signup	Register user
+POST	/api/auth/login	Login user
+Products
+Method	Route	Description
+GET	/api/products	Get all products
+GET	/api/products/:id	Get single product
+POST	/api/products	Create product (auth required)
+DELETE	/api/products/:id	Delete product (owner only)
+📸 Screenshots
+
+(Add images after deployment)
+
+![Homepage]()
+![Sell Page]()
+![Product Modal]()
+![Login]()
+![Signup]()
+
+🧑‍💻 Author
+
+Shivalika Sinha
+CircleStore Assignment
