@@ -16,8 +16,8 @@ export default function Signup(){
         body: JSON.stringify(form)
       });
       saveToken(res.token);
+      nav('/sell'); 
       window.location.reload();
-      nav('/sell'); // go to sell after signup
     }catch(err){
       alert(err.message || 'Error');
     }
