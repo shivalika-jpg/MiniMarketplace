@@ -16,6 +16,7 @@ export default function Login(){
         body: JSON.stringify(form)
       });
       saveToken(res.token);
+      window.location.reload();
       nav('/');
     }catch(err){
       alert(err.message || 'Login failed');
