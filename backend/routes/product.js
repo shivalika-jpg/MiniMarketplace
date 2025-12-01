@@ -5,8 +5,6 @@ const pool = require('../config/db');
 const auth = require('../middleware/authMiddleware');
 const multer = require('multer');
 const cloudinary = require('../config/cloudinary');
-
-// multer memory storage
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
@@ -24,7 +22,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Create product (protected)
 router.post('/', auth, upload.single('image'), async (req, res) => {
     console.log("BODY:", req.body);
     console.log("FILE:", req.file);
@@ -35,7 +32,6 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     let image_url = null;
     if (req.file) {
-      // upload buffer to cloudinary
       const uploadResult = await cloudinary.uploader.upload_stream(
         { folder: 'mini_marketplace' },
         async (error, result) => {
@@ -43,7 +39,6 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
             console.error(error);
             return res.status(500).json({ message: 'Image upload failed' });
           } else {
-            // after upload, insert
             try {
               const [insertRes] = await pool.query(
                 'INSERT INTO products (user_id, name, price, description, image_url) VALUES (?, ?, ?, ?, ?)',
@@ -58,12 +53,9 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
           }
         }
       );
-
-      // pipe buffer
       uploadResult.end(req.file.buffer);
       return; 
     } else {
-      // no image: simple insert
       const [insertRes] = await pool.query(
         'INSERT INTO products (user_id, name, price, description, image_url) VALUES (?, ?, ?, ?, ?)',
         [req.user.id, name, price, description || null, null]
@@ -76,7 +68,6 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     return res.status(500).json({ message: 'Server error' });
   }
 });
-// Get single product by ID
 router.get('/:id', async (req, res) => {
   const productId = req.params.id;
 
@@ -101,12 +92,10 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Delete product (only owner can delete)
 router.delete('/:id', auth, async (req, res) => {
   const productId = req.params.id;
 
   try {
-    // check if product belongs to logged-in user
     const [product] = await pool.query(
       "SELECT * FROM products WHERE id = ?",
       [productId]
@@ -120,7 +109,6 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(403).json({ message: "Not authorized" });
     }
 
-    // delete product
     await pool.query("DELETE FROM products WHERE id = ?", [productId]);
 
     res.json({ message: "Product deleted successfully" });
